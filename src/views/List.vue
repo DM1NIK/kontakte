@@ -34,7 +34,13 @@
         <p  v-else> Keine Einträge...</p>
     </div>
 </template>
+<script type="text/javascript" src="./path/to/vue.min.js"></script>
 
+<script type="text/javascript" src="./path/to/vuejs-dialog.min.js"></script>
+<script>
+    // Tell Vue to install the plugin.
+    window.Vue.use(VuejsDialog.main.default)
+</script>
 <script>
     export default {
         data() {
@@ -64,13 +70,24 @@
         },
         methods: {
             deleteKontakt(element) {
-              this.axios.post('/api/index.php',
-                      {
-                        id: 'liste',
-                        func: 'loeschen',
-                        kid: element.kid
-                      }
-              )
+                this.$dialog
+                    .confirm('Wollen Sie löschen?')
+                    .then( dialog => {
+                        this.axios.post('/api/index.php',
+                            {
+                                id: 'liste',
+                                func: 'loeschen',
+                                kid: element.kid
+                            })
+                            .then((response)=> {
+                                if(response.status==200){
+                                    this.data = this.data.filter(temp =>temp.kid !== element.kid)
+                                }
+                            })
+                    })
+                    .catch( error => {
+                        console.log('Clicked on cancel'+error);
+                    });
             }
         },
         computed: {

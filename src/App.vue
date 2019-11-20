@@ -38,7 +38,9 @@
   /* Bootstrap Navigation */
   .nav-tabs .nav-link { color: #495057}
   .nav-tabs .nav-link.active { color:#dc3545}
-
+.navbar.dark .navbar-nav .nav-link.router-link-exact-active{
+  color: #f3f2ff;
+}
   /* Stacked Table */
   table.tstacked * {
     box-sizing:border-box;
